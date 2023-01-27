@@ -10,7 +10,28 @@
 <body>
     
     <div id="app">
-        
+        <div class="container">
+            <div >
+                <h5 >Login</h5>
+                <div >
+                    <div >
+                        <span >Cargo: </span>
+                        <select class="form-select form-select-lg">
+                            <option  selected value="0">Choose your charge</option>
+                            <option  value="1" >Administrador</option>
+                            <option value="2" >Secretari@</option>
+                            <option value="3" >Vendedor</option>
+                            <option value="4" >Ensamblador</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">PIN: </span>
+                        <input v-model="ipin" @keyup.enter="select_view" type="password" maxlength="4" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <button type="button" class="btn btn btn-primary mb-3" @click="select_view">Login</button>
+                </div>
+            </div><br>
+        </div>
     </div>
 
 
