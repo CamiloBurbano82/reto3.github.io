@@ -16,23 +16,106 @@
         <!-- Administrador del sistema -->
         <div v-if="true">
 
-            <div class="administrador">
+            <div class="column">
 
-                <div class="cargoSeleccionar">
-                    <h2 class="contenido">Salario Base</h2>
-                    <select v-model="cargoSeleccionado" class="contenido">
-                        <option v-for="cargo of cargos">{{cargo.cargo}}</option>
-                    </select>
-                    <input v-model.number="salarioBase" placeholder="salario base" class="contenido">
-                    <button @click="guardarSalarioBase" class="contenido">Guardar</button>
+                <div>
+                    <h1 class="contenido">ADMINISTRADOR DEL SISTEMA</h1>
                 </div>
 
-                <div class="cargoSeleccionar">
+                <div class="row">
 
+                    <div class="card">
+                        <h2 class="contenido">Salario Base</h2>
+                        <select v-model="cargoSeleccionado" class="contenido">
+                            <option v-for="cargo of cargos">{{cargo.cargo}}</option>
+                        </select>
+                        <input v-model.number="salarioBase" placeholder="salario base" class="contenido">
+                        <button @click="guardarSalarioBase" class="contenido">Guardar</button>
+                    </div>
+
+                    <div class="card">
                         <h2 class="contenido">Cantidad máxima de zapatos</h2>
                         <input v-model.number="cantidadMaximaZapatos" placeholder="cantidad" class="contenido">
                         <button @click="guardarMaximoZapatos" class="contenido">Guardar</button>
-                    
+                    </div>
+
+                    <div class="card">
+                        <h2 class="contenido">Precio de ensamble</h2>
+                        <input v-model.number="precioEnsamble" placeholder="cantidad" class="contenido">
+                        <button @click="guardarPrecioEnsamble" class="contenido">Guardar</button>
+                    </div>
+
+                    <div class="card">
+                        <h2 class="contenido">Comisión</h2>
+                        <input v-model.number="comision" placeholder="cantidad" class="contenido">
+                        <button @click="guardarComision" class="contenido">Guardar</button>
+                    </div>
+
+                </div>
+
+
+
+            </div><!-- fin administrador -->
+
+        </div>
+
+        <!-- vendedor -->
+        <div v-if="true">
+
+            <div class="column">
+
+                <div>
+                    <h1 class="contenido">VENDEDOR</h1>
+                </div>
+
+                <div class="row">
+                    <div class="card">
+                        <h2 class="contenido">Salario base:{{cargos[1].salarioBase}}</h2>
+
+                        <select v-model="empleado" class="contenido">
+                            <option v-for="empleado of empleados" v-if="empleado.cargo == 'Vendedor' && empleado.liquidacion == false">{{empleado.nombre}}</option>
+                        </select>
+
+                        <input v-model.number="ventas" placeholder="ventas" class="contenido">
+                        <button @click="calcularSalarioVendedor" class="contenido">Calcular Salario</button>
+                    </div>
+
+                    <div class="card" v-if="salarioVendedor != 0">
+
+                        <h2 class="contenido">Salario total de {{vendedor}} es {{salarioVendedor}}</h2>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- fin vendedor -->
+
+        <!-- mostrar liquidacion -->
+
+        <div v-if="true">
+            <div class="column">
+                <div>
+                    <h1 class="contenido">LIQUIDACIÓN</h1>
+                </div>
+                <div class="row">
+
+                    <div class="card">
+                         <h2 class="contenido">{{cargos[0].cargo}}: salario secretario</h2>
+                    </div>
+
+                    <div class="card">
+                        <h2 class="contenido">{{cargos[1].cargo}}:{{liquidacionVendedores}}</h2>
+                    </div>
+
+                    <div class="card">
+                         <h2 class="contenido">{{cargos[2].cargo}}:salario ensamblador</h2>
+                    </div>
+                       
+                    <div class="card" v-if="liquidacion != 0">
+                        <h2 class="contenido">Liquidación total:{{liquidacion}}</h2>
+                    </div>
 
                 </div>
 
@@ -45,7 +128,8 @@
 
 
 
-    </div>
+    </div> <!-- fin app -->
+
 
 
 
