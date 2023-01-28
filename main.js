@@ -2,9 +2,10 @@ var app = new Vue({
     el: '#app',
     data: {
         empleados: [
-            { nombre: 'camilo', cargo: 'Vendedor', liquidacion: false },
+            { nombre: 'camilo burbano', cargo: 'Vendedor', liquidacion: false },
             { nombre: 'valentina', cargo: 'Ensamblador', liquidacion: false },
-            { nombre: 'tiago', cargo: 'Vendedor', liquidacion: false }
+            { nombre: 'tiago burbano', cargo: 'Vendedor', liquidacion: false },
+            { nombre: 'lina', cargo: 'Secretario', liquidacion: false }
         ],
         empleado: '',
         cargos: [
@@ -19,7 +20,7 @@ var app = new Vue({
         comision: '',
         ventas: '',
         subsidioTransporte: 140606,
-        vendedor:'',
+        vendedor: '',
         salarioVendedor: 0,
         liquidacionVendedores: 0,
         liquidacion: 0
@@ -30,53 +31,76 @@ var app = new Vue({
 
         guardarSalarioBase() {
 
-            this.cargos.forEach(item => {
+            if (this.salarioBase != '' && this.cargoSeleccionado != '') {
+                this.cargos.forEach(item => {
 
-                if (item.cargo == this.cargoSeleccionado) {
-                    item.salarioBase = this.salarioBase;
-                }
+                    if (item.cargo == this.cargoSeleccionado) {
+                        item.salarioBase = this.salarioBase;
+                        alert('Salario base del ' + this.cargoSeleccionado + ' actualizado');
+                        this.cargoSeleccionado = '';
+                        this.salarioBase = '';
+                    }
+                });
 
-            });
-
+            } else {
+                alert('Error al ingresar los datos');
+            }
             console.log(this.cargos);
-
         },
 
         guardarMaximoZapatos() {
-            console.log(this.cantidadMaximaZapatos);
+            if (this.cantidadMaximaZapatos != '') {
+                alert('Cantidad maxima de  zapatos actualizada');
+                // console.log(this.cantidadMaximaZapatos);
+            } else {
+                alert('Error al ingresar los datos');
+            }
         },
 
         guardarPrecioEnsamble() {
-            console.log(this.precioEnsamble);
+            if (this.precioEnsamble != '') {
+                alert('Precio de ensamble actualizado');
+                // console.log(this.precioEnsamble);
+            } else {
+                alert('Error al ingresar los datos');
+            }
         },
 
         guardarComision() {
-            console.log(this.comision);
+            if (this.comision != '' && this.comision >= 0 && this.comision <= 100) {
+                console.log(this.comision);
+                alert('Comisión actualizada');
+            } else {
+                alert('Error al ingresar los datos');
+            }
         },
 
         calcularSalarioVendedor() {
 
-            this.empleados.forEach(item => {
-                if (item.nombre == this.empleado) {
-
-                    if (this.ventas > 5000000 && this.ventas < 10000000) {
-                        this.salarioVendedor = this.cargos[1].salarioBase + (this.cargos[1].salarioBase * 0.1) + this.subsidioTransporte;
-                    } else if (this.ventas >= 10000000) {
-                        this.salarioVendedor = this.cargos[1].salarioBase + (this.cargos[1].salarioBase * 0.2) + this.subsidioTransporte;
-                    } else {
-                        this.salarioVendedor = this.cargos[1].salarioBase + this.subsidioTransporte;
+            if (this.empleado != '' && this.ventas != '') {
+                this.empleados.forEach(item => {
+                    if (item.nombre == this.empleado) {
+                        // console.log(item.nombre);
+                        // console.log(this.empleado);
+                        if (this.ventas > 5000000 && this.ventas < 10000000) {
+                            this.salarioVendedor = this.cargos[1].salarioBase + (this.cargos[1].salarioBase * 0.1) + (this.ventas * (this.comision / 100)) + this.subsidioTransporte;
+                        } else if (this.ventas >= 10000000) {
+                            this.salarioVendedor = this.cargos[1].salarioBase + (this.cargos[1].salarioBase * 0.2) + (this.ventas * (this.comision / 100)) + this.subsidioTransporte;
+                        } else {
+                            this.salarioVendedor = this.cargos[1].salarioBase + (this.ventas * (this.comision / 100)) + this.subsidioTransporte;
+                        }
+                        this.liquidacionVendedores = this.liquidacionVendedores + this.salarioVendedor;
+                        this.liquidacion = this.liquidacion + this.salarioVendedor;
+                        item.liquidacion = true;
+                        this.ventas = '';
+                        this.vendedor = this.empleado;
+                        this.empleado = '';
                     }
-                    this.liquidacionVendedores = this.liquidacionVendedores + this.salarioVendedor;
-                    this.liquidacion = this.liquidacion + this.salarioVendedor;
-                    item.liquidacion = true;
-                    this.ventas = '';
-                    this.vendedor = this.empleado;
-                
-                }
-            });
-
+                });
+            } else {
+                alert('Error al ingresar los datos');
+            }
             console.log(this.empleados);
-
 
         }
 

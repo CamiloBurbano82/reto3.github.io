@@ -29,25 +29,25 @@
                         <select v-model="cargoSeleccionado" class="contenido">
                             <option v-for="cargo of cargos">{{cargo.cargo}}</option>
                         </select>
-                        <input v-model.number="salarioBase" placeholder="salario base" class="contenido">
+                        <input type="number" v-model.number="salarioBase" placeholder="salario base" class="contenido">
                         <button @click="guardarSalarioBase" class="contenido">Guardar</button>
                     </div>
 
                     <div class="card">
                         <h2 class="contenido">Cantidad máxima de zapatos</h2>
-                        <input v-model.number="cantidadMaximaZapatos" placeholder="cantidad" class="contenido">
+                        <input type="number" v-model.number="cantidadMaximaZapatos" placeholder="cantidad" class="contenido">
                         <button @click="guardarMaximoZapatos" class="contenido">Guardar</button>
                     </div>
 
                     <div class="card">
                         <h2 class="contenido">Precio de ensamble</h2>
-                        <input v-model.number="precioEnsamble" placeholder="cantidad" class="contenido">
+                        <input type="number" v-model.number="precioEnsamble" placeholder="cantidad" class="contenido">
                         <button @click="guardarPrecioEnsamble" class="contenido">Guardar</button>
                     </div>
 
                     <div class="card">
-                        <h2 class="contenido">Comisión</h2>
-                        <input v-model.number="comision" placeholder="cantidad" class="contenido">
+                        <h2 class="contenido">Comisión en %</h2>
+                        <input type="number" v-model.number="comision" placeholder="cantidad" class="contenido">
                         <button @click="guardarComision" class="contenido">Guardar</button>
                     </div>
 
@@ -71,12 +71,13 @@
                 <div class="row">
                     <div class="card">
                         <h2 class="contenido">Salario base:{{cargos[1].salarioBase}}</h2>
+                        <h2 class="contenido">Comision:{{comision}}%</h2>
 
                         <select v-model="empleado" class="contenido">
                             <option v-for="empleado of empleados" v-if="empleado.cargo == 'Vendedor' && empleado.liquidacion == false">{{empleado.nombre}}</option>
                         </select>
 
-                        <input v-model.number="ventas" placeholder="ventas" class="contenido">
+                        <input type="number" v-model.number="ventas" placeholder="ventas" class="contenido">
                         <button @click="calcularSalarioVendedor" class="contenido">Calcular Salario</button>
                     </div>
 
