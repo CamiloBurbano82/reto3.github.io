@@ -70,15 +70,16 @@
             <div v-if="accionesAdmi[0].informe === true">
                 <h5 >Informe de pagos <span ><button @click="botonX" type="button" ><strong>X</strong></button></span></h5>
                 <div >
+                    <h5>/////////////////////////////////////////////////////</span></h5>
                     <h5>Informe Secretario(a) </h5>
-                    <h5>Nombre empleado: <span v-text="">testName</span></h5>
+                    <h5>Nombre empleado: <span v-text="cargos[0].nombre"></span></h5>
                     <h5>Horas extras trabajadas: <span v-text="cargos[1].horasExtra"></span></h5>
                     <h5>Salario base: <span v-text="cargos[1].baseSalario"></span></h5>
                     <h5>Valor horas extras: <span v-text="cargos[1].valorHoraExtra"></span></h5>
                     <h5>Total a liquidar: <span v-text="cargos[1].totalPago"></span></h5>
-                    <h5>------------------------------------------------------------</span></h5>
+                    <h5>/////////////////////////////////////////////////////</span></h5>
                     <h5>Vendedor </h5>
-                    <h5>Nombre empleado: <span v-text="">testName</span></h5>
+                    <h5>Nombre empleado: <span v-text="cargos[1].nombre">testName</span></h5>
                     <h5>Salario base: <span v-text="cargos[2].baseSalario"></span></h5>
                     <h5>Precio zapato: <span v-text="operaciones[0].precio"></span></h5>
                     <h5>Precio zapatillas: <span v-text="operaciones[1].precio"></span></h5>
@@ -88,9 +89,9 @@
                     <h5>Total Comisiones: <span v-text="cargos[0].totalComision"></span></h5>
                     <h5>Subsidio transporte: <span v-text="cargos[2].comision1"></span></h5>
                     <h5>Total a liquidar: <span v-text="cargos[2].totalPago"></span></h5>
-                    <h5>------------------------------------------------------------</span></h5>
+                    <h5>/////////////////////////////////////////////////////</span></h5>
                     <h5>Ensamblador </h5>
-                    <h5>Nombre empleado: <span v-text="">testName</span></h5>
+                    <h5>Nombre empleado: <span v-text="cargos[2].nombre">testName</span></h5>
                     <h5>Horas extras trabajadas: <span v-text="cargos[3].horasExtra"></span></h5>
                     <h5>Salario base: <span v-text="cargos[3].baseSalario"></span></h5>
                     <h5>Valor horas extras: <span v-text="cargos[3].valorHoraExtra"></span></h5>
@@ -99,7 +100,7 @@
                     <h5>Costo de ensamblaje de zapatos: <span v-text="accionesAdmi[0].costshoes"></span></h5>
                     <h5>Costo de ensamblaje de zapatillas: <span v-text="accionesAdmi[0].costsneakers"></span></h5>
                     <h5>Total a liquidar: <span v-text="cargos[3].totalPago"></span></h5>
-                    <h5>------------------------------------------------------------</span></h5>
+                    <h5>/////////////////////////////////////////////////////</span></h5>
                 </div>
             </div>
             <div  v-if="accionesAdmi[0].editar1 === true">
@@ -285,7 +286,7 @@
 
     
 </body>
-<!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script> -->
-<script src="vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+<!-- <script src="vue.js"></script> -->
 <script src="main.js"></script>
 </html>

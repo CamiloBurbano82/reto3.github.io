@@ -78,7 +78,7 @@ var app = new Vue({
                 this.cargos[2].comision1 = this.accionesAdmi[0].comisionUno/100;
                 this.cargos[2].comision2 = this.accionesAdmi[0].comisionDos/100;
             }
-            alert(`Salario actualizado para el empleado: ${this.cargos[this.accionesAdmi[0].pos].name} con cargo: ${this.cargos[this.accionesAdmi[0].pos].charge}`)
+            alert(`Salario actualizado para el empleado: ${this.cargos[this.accionesAdmi[0].pos].nombre} con cargo: ${this.cargos[this.accionesAdmi[0].pos].cargo}`)
         },
         pInforme(){
             this.accionesAdmi[0].informe = true;
@@ -154,7 +154,7 @@ var app = new Vue({
         vistaSecretaria(){
             this.tVistaSecr = 1;
             this.cLogin = '';
-            this.cargos[3].totalEnsamblados = this.operaciones[0].assembled + this.operaciones[1].assembled;
+            this.cargos[3].totalEnsamblados = this.operaciones[0].ensamble + this.operaciones[1].ensamble;
             this.tVistaValores = (this.operaciones[0].price * this.operaciones[0].sold)+(this.operaciones[1].price * this.operaciones[1].sold);
         },
         secreEnviar(){
@@ -178,7 +178,7 @@ var app = new Vue({
             this.cLogin = '';
         },
         ensabladorEnviar(){
-            if (this.operaciones[0].assembled > this.accionesAdmi[0].maximoZapatos || this.operaciones[1].assembled > this.accionesAdmi[0].maximoZapatillas) {
+            if (this.operaciones[0].ensamble > this.accionesAdmi[0].maximoZapatos || this.operaciones[1].ensamble > this.accionesAdmi[0].maximoZapatillas) {
                 alert('Ha superado la cantidad maxima de zapatos o zapatillas que se pueden montar')
                 this.tVistaEnsamblador = 0;
                 this.idCargo = '';
@@ -186,8 +186,8 @@ var app = new Vue({
                 this.cLogin = 1;
             }else{
                 this.cargos[3].horasExtra = this.accionesCargo[0].mHora2;
-                this.cargos[3].zapatosEns = this.operaciones[0].assembled;
-                this.cargos[3].zapatillasEns = this.operaciones[1].assembled;
+                this.cargos[3].zapatosEns = this.operaciones[0].ensamble;
+                this.cargos[3].zapatillasEns = this.operaciones[1].ensamble;
                 alert("Los datos se enviaron");
             }
         }
