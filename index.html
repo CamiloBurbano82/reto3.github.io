@@ -4,40 +4,288 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
     <title>Reto3</title>
 </head>
-<body>
-    
-    <div id="app">
-        <div class="container">
+<body background="wallpaper.jpg">
+    <!-- Login -->
+    <div id="app" >
+        <div>
+        <div id="login" v-if="cLogin === 1">
+            <h2 id="pLogin">Login</h2>
             <div >
-                <h5 >Login</h5>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cargo :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select id="selectLogin" v-model.number="idCargo">
+                    <option  selected value="0">Seleccione su cargo</option>
+                    <option  value="1" >Administrador</option>
+                    <option value="2" >Secretario(a)</option>
+                    <option value="3" >Vendedor</option>
+                    <option value="4" >Ensamblador</option>
+                </select>
+            </div>
+            <div><br>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Digite los 4 numeros de seguridad:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input v-model="idPin" @keyup.enter="vistaSeleccion" maxlength="4"  type="password">
+            </div><br>
+            <div id="bLogin">
+                <button @click="vistaSeleccion" type="button" >Login</button>
+            </div><br>
+            
+        </div>
+
+        <!-- Fin Login -->
+
+        <!-- Administrador -->
+        <div id="administrador" v-if="tVistaAdmin === 1"> 
+            <h2>Administrador(a)<button @click="cerrarSesion" type="button">Salir</button></h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre Empleado</th>
+                        <th>Cargo</th>
+                        <th>Salario</th>
+                        <th>Editar</th>
+                    </tr>
+                </thead>
+                <tbody v-if="cargos.length">
+                    <tr v-for="(item, index) in cargos" :key="item.id">
+                        <td v-text="item.nombre"></td>
+                        <td v-text="item.cargo"></td>
+                        <td v-text="item.baseSalario"></td>
+                        <td>
+                            <button  @click="edicionCargo(index)" type="button">Editar</button>
+                        </td>
+                        <tr>
+                            <td  colspan="7"><button @click="pInforme">Informe de pagos</button></td>
+                        </tr>
+                    </tr>
+                </tbody>
+                <tbody v-else>
+                    <tr>
+                        <td> No se encontro informe</td>
+                    </tr>
+                </tbody>
+            </table><br>
+            <!-- Reporte -->
+            <div v-if="accionesAdmi[0].informe === true">
+                <h5 >Informe de pagos <span ><button @click="botonX" type="button" ><strong>X</strong></button></span></h5>
+                <div >
+                    <h5>Informe Secretario(a) </h5>
+                    <h5>Nombre empleado: <span v-text="">testName</span></h5>
+                    <h5>Horas extras trabajadas: <span v-text="cargos[1].horasExtra"></span></h5>
+                    <h5>Salario base: <span v-text="cargos[1].baseSalario"></span></h5>
+                    <h5>Valor horas extras: <span v-text="cargos[1].valorHoraExtra"></span></h5>
+                    <h5>Total a liquidar: <span v-text="cargos[1].totalPago"></span></h5>
+                    <h5>------------------------------------------------------------</span></h5>
+                    <h5>Vendedor </h5>
+                    <h5>Nombre empleado: <span v-text="">testName</span></h5>
+                    <h5>Salario base: <span v-text="cargos[2].baseSalario"></span></h5>
+                    <h5>Precio zapato: <span v-text="operaciones[0].precio"></span></h5>
+                    <h5>Precio zapatillas: <span v-text="operaciones[1].precio"></span></h5>
+                    <h5>Zapatos vendidos: <span v-text="operaciones[0].monto"></span></h5>
+                    <h5>Zapatillas vendidas: <span v-text="operaciones[1].monto"></span></h5>
+                    <h5>Total vendidos: <span v-text="cargos[2].totalVentas"></span></h5>
+                    <h5>Total Comisiones: <span v-text="cargos[0].totalComision"></span></h5>
+                    <h5>Subsidio transporte: <span v-text="cargos[2].comision1"></span></h5>
+                    <h5>Total a liquidar: <span v-text="cargos[2].totalPago"></span></h5>
+                    <h5>------------------------------------------------------------</span></h5>
+                    <h5>Ensamblador </h5>
+                    <h5>Nombre empleado: <span v-text="">testName</span></h5>
+                    <h5>Horas extras trabajadas: <span v-text="cargos[3].horasExtra"></span></h5>
+                    <h5>Salario base: <span v-text="cargos[3].baseSalario"></span></h5>
+                    <h5>Valor horas extras: <span v-text="cargos[3].valorHoraExtra"></span></h5>
+                    <h5>Zapatos ensamblados: <span v-text="cargos[3].zapatosEns"></span></h5>
+                    <h5>Zapatillas ensambladas: <span v-text="cargos[3].zapatillasEns"></span></h5>
+                    <h5>Costo de ensamblaje de zapatos: <span v-text="accionesAdmi[0].costshoes"></span></h5>
+                    <h5>Costo de ensamblaje de zapatillas: <span v-text="accionesAdmi[0].costsneakers"></span></h5>
+                    <h5>Total a liquidar: <span v-text="cargos[3].totalPago"></span></h5>
+                    <h5>------------------------------------------------------------</span></h5>
+                </div>
+            </div>
+            <div  v-if="accionesAdmi[0].editar1 === true">
+                <h5 >Editar Secretario(a)<span ><button  @click="botonX" type="button" ><strong>X</strong></button></span></h5>
                 <div >
                     <div >
-                        <span >Cargo: </span>
-                        <select class="form-select form-select-lg">
-                            <option  selected value="0">Choose your charge</option>
-                            <option  value="1" >Administrador</option>
-                            <option value="2" >Secretari@</option>
-                            <option value="3" >Vendedor</option>
-                            <option value="4" >Ensamblador</option>
-                        </select>
+                        <span >Nombre: </span>
+                        <input v-model="cargos[1].name" type="text" >
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">PIN: </span>
-                        <input v-model="ipin" @keyup.enter="select_view" type="password" maxlength="4" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <div >
+                        <span >Salario base: </span>
+                        <input v-model.number="accionesAdmi[0].nuevoSB" @keyup.enter="guardar" type="number" >
                     </div>
-                    <button type="button" class="btn btn btn-primary mb-3" @click="select_view">Login</button>
                 </div>
-            </div><br>
+                <div >
+                    <button @click="guardar" type="button" >Guardar</button>
+                </div>
+            </div>
+            <div v-else-if="accionesAdmi[0].editar2 === true">
+                <h5 >Editar Vendedor(a) <span ><button  @click="botonX" type="button" ><strong>X</strong></button></span></h5>
+                <div >
+                    <div >
+                        <span >Nombre: </span>
+                        <input v-model="cargos[2].name" type="text" >
+                    </div>
+                    <div >
+                        <span >Salario base: </span>
+                        <input v-model.number="accionesAdmi[0].nuevoSB" @keyup.enter="guardar" type="number" >
+                    </div>
+                    <div >
+                        <span >% Comision 1: </span>
+                        <input v-model.number="accionesAdmi[0].comisionUno" @keyup.enter="guardar" type="number" >
+                    </div>
+                    <div >
+                        <span >% Comision 2: </span>
+                        <input v-model.number="accionesAdmi[0].comisionDos" @keyup.enter="guardar" type="number" >
+                    </div>
+                </div>
+                <div >
+                    <button  @click="guardar" type="button"  >Guardar</button>
+                </div>
+            </div>
+            <div  v-else-if="accionesAdmi[0].editar3 === true">
+                <h5 >Editar Ensamblador <span ><button  @click="botonX" type="button" ><strong>X</strong></button></span></h5>
+                <div >
+                    <div >
+                        <span >Nombre: </span>
+                        <input v-model="cargos[3].name" type="text" >
+                    </div>
+                    <div >
+                        <span >Salario base: </span>
+                        <input v-model.number="accionesAdmi[0].nuevoSB" type="number" >
+                    </div>
+                    <div >
+                        <span >Precio ensamble zapatos: </span>
+                        <input v-model="accionesAdmi[0].costshoes" type="number" >
+                    </div>
+                    <div >
+                        <span >Precio ensamble zapatillas: </span>
+                        <input v-model="accionesAdmi[0].costsneakers" type="number" >
+                    </div>
+                    <div >
+                        <span >Maximo de zapatos: </span>
+                        <input v-model="accionesAdmi[0].maximoZapatos" type="number" >
+                    </div>
+                    <div >
+                        <span >Maximo de zapatillas: </span>
+                        <input v-model="accionesAdmi[0].maximoZapatillas" type="number" >
+                    </div>
+                </div>
+                <div >
+                    <button  @click="guardar" @keyup.enter="guardar" type="button" >Guardar</button>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Administrador -->
+
+        <!-- Secretario(a) -->
+        <div id="secretario" v-if="tVistaSecr">
+            <h3 ><strong>Secretario(a)</strong> <span><button @click="cerrarSesion" type="button" ><strong>Salir</strong></i></button></span></h3>
+            <table >
+                <thead >
+                    <tr >
+                        <th>Tipo</th>
+                        <th>Precio</th>
+                        <th>Cantidad ensamblada</th>
+                        <th>Cantidad vendida</th>
+                    </tr>
+                </thead>
+                <tbody v-if="operaciones.length">
+                    <tr v-for="(item, index) in operaciones" :key="item.id" >
+                        <td v-text="item.tipo"></td>
+                        <td v-text="item.precio"></td>
+                        <td v-text="item.ensamble"></td>
+                        <td v-text="item.monto"></td>
+                        <tr>
+                            <td >Total de ensamblados:</td>
+                            <td v-text="cargos[3].totalEnsamblados" ></td>
+                        </tr>
+                        <tr>
+                            <td >Total vendidos:</td>
+                            <td v-text="cargos[2].totalVentas" ></td>
+                        </tr>
+                    </tr>
+                </tbody>
+                <tbody v-else>
+                    <tr>
+                        <td >No se encontro información</td>
+                    </tr>
+                </tbody>
+            </table><br>
+            <div v-else-if="">
+                <div >
+                    <div >
+                        <span >Horas extras trabajadas: </span>
+                        <input @keyup.enter="secreEnviar" v-model.number="accionesCargo[0].mHora1" type="number" >
+                    </div>
+                </div>
+                <div >
+                    <button @click="secreEnviar" type="button" ><strong>Enviar</strong></button>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Secretario(a) -->
+
+        <!-- Vendedor --> 
+        <div id="vendedor" v-if="tVistaVendedor === 1">
+            <h3 ><strong>Vendedor</strong> <span><button @click="cerrarSesion" type="button" ><strong>Salir</strong></i></button></span></h3>
+            <div v-else-if="">
+                <h5 ><strong>Ventas</strong></h5>
+                <div >
+                    <div >
+                        <span>Número de zapatos vendidos: </span>
+                        <input v-model.number="operaciones[0].monto" type="number" >
+                    </div>
+                    <div >
+                        <span >Número de zapatillas vendidos: </span>
+                        <input v-model.number="operaciones[1].monto" type="number" >
+                    </div>
+                </div>
+                <div >
+                    <button @click="vendedorEnviar" type="button" ><strong>Enviar</strong></button>
+                </div>
+            </div>
+        </div>
+        <!-- Fin vendedor --> 
+
+        <!-- Ensamblador --> 
+        <div id="ensamblador" v-if="tVistaEnsamblador === 1">
+            <h3 ><strong>Ensamblador</strong> <span><button @click="cerrarSesion" type="button" ><strong>Salir</strong></button></span></h3>
+            <div v-else-if="">
+                <h5 ><strong>Información</strong></h5>
+                <div >
+                    <div >
+                        <span >Horas extras trabajadas </span>
+                        <input @keyup.enter="ensabladorEnviar" v-model.number="accionesCargo[0].mHora1" type="number" >
+                    </div>
+                    <div >
+                        <span >Total de zapatos ensamblados: </span>
+                        <input v-model.number="operaciones[0].ensamble" type="number" >
+                    </div>
+                    <div>
+                        <span >Total de zapatillas ensamblados: </span>
+                        <input v-model.number="operaciones[1].ensamble" type="number" >
+                    </div>
+                    <label>¿Tiene hijos?</label>
+                    <label class="radio-inline" for="opt1"> <input v-model.number="accionesCargo[0].hijos" type="radio" name="opt" id="opt1" value="1"> Si </label>
+                    <label class="radio-inline" for="opt2"> <input v-model.number="accionesCargo[0].hijos" type="radio" name="opt" id="opt2" value="2"> No </label>
+                    <div v-if="accionesCargo[0].hijos === 1" >
+                        <span >¿Cuantos hijos tiene? </span>
+                        <input v-model.number="cargos[3].hijos" type="number" >
+                    </div>
+                </div>
+                <div >
+                    <button @click="ensabladorEnviar" type="button" ><strong>Enviar</strong></button>
+                </div>
+            </div>
+        </div>
+        <!-- Fin ensamblador --> 
         </div>
     </div>
 
 
     
 </body>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
-
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script> -->
+<script src="vue.js"></script>
 <script src="main.js"></script>
 </html>
