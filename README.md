@@ -1,5 +1,6 @@
 # reto3.github.io
 La aplicación permite calcular el salario de los empleados dependiendo de su cargo y parametros propios.
+Este sitio fue construido usando [GitHub Pages](https://camiloburbano82.github.io/reto3.github.io/).
 
 ## Login
 En esta interfaz se lista los cargos que tiene el sistema (Administrador, Secretario, Vendedor y Ensamblador) 
