@@ -13,8 +13,25 @@
 
     <div id="app">
 
+        <!-- login -->
+        <div v-if="estado">
+            <div class="column">
+                <div class="row">
+                    <div class="card">
+                        <h2 class="contenido">LOGIN</h2>
+                        <select v-model="cargoSeleccionado" class="contenido">
+                            <option v-for="cargo of cargos">{{cargo.cargo}}</option>
+                        </select>
+                        <input type="password" v-model="pin" placeholder="pin" class="contenido">
+                        <button @click="login" class="contenido">Ingresar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- fin login -->
+
         <!-- Administrador del sistema -->
-        <div v-if="true">
+        <div v-if="cargos[0].login">
 
             <div class="column">
 
@@ -26,41 +43,91 @@
 
                     <div class="card">
                         <h2 class="contenido">Salario Base</h2>
+                        <h4>{{cargos[1].cargo}}:{{cargos[1].salarioBase}}</h4>
+                        <h4>{{cargos[2].cargo}}:{{cargos[2].salarioBase}}</h4>
+                        <h4>{{cargos[3].cargo}}:{{cargos[3].salarioBase}}</h4>
                         <select v-model="cargoSeleccionado" class="contenido">
-                            <option v-for="cargo of cargos">{{cargo.cargo}}</option>
+                            <option v-for="cargo of cargos" v-if="cargo.cargo != 'Administrador'">{{cargo.cargo}}
+                            </option>
                         </select>
                         <input type="number" v-model.number="salarioBase" placeholder="salario base" class="contenido">
                         <button @click="guardarSalarioBase" class="contenido">Guardar</button>
                     </div>
 
                     <div class="card">
-                        <h2 class="contenido">Cantidad máxima de zapatos</h2>
-                        <input type="number" v-model.number="cantidadMaximaZapatos" placeholder="cantidad" class="contenido">
+                        <h2 class="contenido">Cantidad máxima de zapatos y zapatillas</h2>
+                        <label>zapatos</label>
+                        <input type="number" v-model.number="cantidadMaximaZapatos" placeholder="zapatos"
+                            class="contenido">
+                        <label>zapatillas</label>
+                        <input type="number" v-model.number="cantidadMaximaZapatillas" placeholder="zapatillas"
+                            class="contenido">
                         <button @click="guardarMaximoZapatos" class="contenido">Guardar</button>
                     </div>
 
                     <div class="card">
-                        <h2 class="contenido">Precio de ensamble</h2>
-                        <input type="number" v-model.number="precioEnsamble" placeholder="cantidad" class="contenido">
+                        <h2 class="contenido">Precio de ensamble zapatos y zapatillas</h2>
+                        <label>zapatos</label>
+                        <input type="number" v-model.number="precioEnsambleZapatos" placeholder="precio zapatos"
+                            class="contenido">
+                        <label>zapatillas</label>
+                        <input type="number" v-model.number="precioEnsambleZapatillas" placeholder="cantidad zapatillas"
+                            class="contenido">
                         <button @click="guardarPrecioEnsamble" class="contenido">Guardar</button>
                     </div>
 
                     <div class="card">
                         <h2 class="contenido">Comisión en %</h2>
+                        <label>porcentaje</label>
                         <input type="number" v-model.number="comision" placeholder="cantidad" class="contenido">
                         <button @click="guardarComision" class="contenido">Guardar</button>
                     </div>
 
                 </div>
-
-
+                
 
             </div><!-- fin administrador -->
 
         </div>
 
+        <!-- secretario -->
+        <div v-if="cargos[1].login">
+            <div class="column">
+                <div>
+                    <h1 class="contenido">SECRETARIO</h1>
+                </div>
+                <div class="row">
+                    <div class="card">
+                        <h2 class="contenido">Salario base: {{ cargos[1].salarioBase}}</h2>
+                        <select v-model="empleado" class="contenido">
+                            <option v-for="empleado of empleados"
+                                v-if="empleado.cargo == 'Secretario' && empleado.liquidacion == false">
+                                {{empleado.nombre}}
+                            </option>
+                        </select>
+                        <input type="number" v-model.number="horas" placeholder="horas extras" class="contenido">
+                        <button @click="calcularSalarioSecretario" class="contenido">Calcular Salario</button>
+
+                    </div>
+                    <div class="card" v-if="secretario != 0">
+
+                        <h2 class="contenido" v-for="empleado of empleados"
+                        v-if="empleado.cargo == 'Secretario' && empleado.liquidacion == true">Salario total de {{empleado.nombre}} es {{empleado.salario}}</h2>
+
+                    </div>
+
+                </div>
+                <div>
+                    <button @click="salir" class="contenido">Salir</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- fin secretario -->
+
         <!-- vendedor -->
-        <div v-if="true">
+        <div v-if="cargos[2].login">
 
             <div class="column">
 
@@ -70,32 +137,96 @@
 
                 <div class="row">
                     <div class="card">
-                        <h2 class="contenido">Salario base:{{cargos[1].salarioBase}}</h2>
-                        <h2 class="contenido">Comision:{{comision}}%</h2>
+                        <h2 class="contenido">Salario base: {{ cargos[2].salarioBase}}</h2>
+                        <h2 class="contenido">Comisión:{{comision}}%</h2>
 
                         <select v-model="empleado" class="contenido">
-                            <option v-for="empleado of empleados" v-if="empleado.cargo == 'Vendedor' && empleado.liquidacion == false">{{empleado.nombre}}</option>
+                            <option v-for="empleado of empleados"
+                                v-if="empleado.cargo == 'Vendedor' && empleado.liquidacion == false">{{empleado.nombre}}
+                            </option>
                         </select>
 
                         <input type="number" v-model.number="ventas" placeholder="ventas" class="contenido">
                         <button @click="calcularSalarioVendedor" class="contenido">Calcular Salario</button>
                     </div>
 
-                    <div class="card" v-if="salarioVendedor != 0">
+                    <div class="card" v-if="vendedor != 0">
 
-                        <h2 class="contenido">Salario total de {{vendedor}} es {{salarioVendedor}}</h2>
+                        <h2 class="contenido" v-for="empleado of empleados"
+                        v-if="empleado.cargo == 'Vendedor' && empleado.liquidacion == true">Salario total de {{empleado.nombre}} es {{empleado.salario}}</h2>
 
                     </div>
 
+
+
+                </div>
+                <div>
+                    <button @click="salir" class="contenido">Salir</button>
                 </div>
             </div>
 
         </div>
         <!-- fin vendedor -->
 
+        <!-- ensamblador -->
+        <div v-if="cargos[3].login">
+            <div class="column">
+                <div>
+                    <h1 class="contenido">ENSAMBLADOR</h1>
+                </div>
+                <div class="row">
+                    <div class="card">
+                        <h2 class="contenido">Salario base: {{ cargos[3].salarioBase}}</h2>
+                        <h2>Precio ensamble zapatos: {{precioEnsambleZapatos}}</h2>
+                        <h2>Precio ensamble zapatillas: {{precioEnsambleZapatillas}}</h2>
+                        <h2>Maximo de zapatos: {{cantidadMaximaZapatos}}</h2>
+                        <h2>Maximo de zapatillas: {{cantidadMaximaZapatillas}}</h2>
+
+                        <select v-model="empleado" class="contenido">
+                            <option v-for="empleado of empleados"
+                                v-if="empleado.cargo == 'Ensamblador' && empleado.liquidacion == false">
+                                {{empleado.nombre}}
+                            </option>
+                        </select>
+                        <input type="number" v-model.number="horasExtrasEnsamblador" placeholder="horas extras"
+                            class="contenido">
+                        <input type="number" v-model.number="totalZapatosEnsamblados"
+                            placeholder="zapatos ensamblados" class="contenido">
+                        <input type="number" v-model.number="totalZapatillasEnsambladas"
+                            placeholder="zapatillas ensambladas" class="contenido">
+
+                        <div class="contenido">
+                            <div class="row">
+                                <label>¿Tiene hijos?</label>
+                                <label> <input v-model.number="tieneHijos" type="radio" value="1"> Si </label>
+                                <label> <input v-model.number="tieneHijos" type="radio" value="2"> No </label>
+                            </div>
+                            <div v-if="tieneHijos == 1" class="row">
+                                <span>¿Cuantos hijos tiene? </span>
+
+                                <input v-model.number="hijos" type="number" class="input">
+                            </div>
+                        </div>
+                        <button @click="calcularSalarioEnsamblador" class="contenido">Calcular Salario</button>
+                    </div>
+
+                    <div class="card" v-if="ensamblador != 0">
+
+                        <h2 class="contenido" v-for="empleado of empleados" v-if="empleado.cargo == 'Ensamblador' && empleado.liquidacion == true">Salario total de {{empleado.nombre}} es {{empleado.salario}}</h2>
+
+                    </div>
+
+                </div>
+                <div>
+                    <button @click="salir" class="contenido">Salir</button>
+                </div>
+            </div>
+        </div>
+        <!-- fin ensamblador -->
+
         <!-- mostrar liquidacion -->
 
-        <div v-if="true">
+        <div v-if="cargos[0].login">
             <div class="column">
                 <div>
                     <h1 class="contenido">LIQUIDACIÓN</h1>
@@ -103,21 +234,25 @@
                 <div class="row">
 
                     <div class="card">
-                         <h2 class="contenido">{{cargos[0].cargo}}: salario secretario</h2>
+                        <h2 class="contenido">{{cargos[1].cargo}}: {{verSecretario}}</h2>
                     </div>
 
                     <div class="card">
-                        <h2 class="contenido">{{cargos[1].cargo}}:{{liquidacionVendedores}}</h2>
+                        <h2 class="contenido">{{cargos[2].cargo}}: {{verVendedor}}</h2>
                     </div>
 
                     <div class="card">
-                         <h2 class="contenido">{{cargos[2].cargo}}:salario ensamblador</h2>
-                    </div>
-                       
-                    <div class="card" v-if="liquidacion != 0">
-                        <h2 class="contenido">Liquidación total:{{liquidacion}}</h2>
+                        <h2 class="contenido">{{cargos[3].cargo}}: {{verEnsamblador}}</h2>
                     </div>
 
+                    <div class="card">
+                        <h2 class="contenido">Liquidación total: {{verLiquidacion}}</h2>
+                    </div>
+
+                </div>
+
+                <div>
+                    <button @click="salir" class="contenido">Salir</button>
                 </div>
 
             </div>
