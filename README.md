@@ -6,7 +6,7 @@ En esta interfaz se lista los cargos que tiene el sistema (Administrador, Secret
 y el pin que corresponde a cuatro numeros, si este es correcto el sistema lo redirije 
 a la interfaz correspondiente de lo contrario una alerta indica el error al ingresar los datos.
 
-![](https://github.com/CamiloBurbano82/reto3.github.io/blob/camilo/images/login.png)
+![](https://github.com/CamiloBurbano82/reto3.github.io/blob/main/images/login.png)
 
 ## Administrador
 En esta interfaz se manejan todas las funciones del cargo Administrador, como lo son: 
